@@ -107,9 +107,9 @@ void ParticleFilter::dataAssociation(std::vector<LandmarkObs> predicted, std::ve
 void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], 
 		const std::vector<LandmarkObs> &observations, const Map &map_landmarks) {
   // calculate normalization term
-  const double gauss_norm = 1 / (2 * M_PI * std_landmark[0] * std_landmark[1]);
-  const double std_x_2 = 2 * std_landmark[0] * std_landmark[0];
-  const double std_y_2 = 2 * std_landmark[1] * std_landmark[1];
+  const double gauss_norm = 1.0 / (2.0 * M_PI * std_landmark[0] * std_landmark[1]);
+  const double std_x_2 = 2.0 * std_landmark[0] * std_landmark[0];
+  const double std_y_2 = 2.0 * std_landmark[1] * std_landmark[1];
 
   // iterate through particles
   for (auto &p : particles) {
@@ -159,13 +159,13 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
       // multiply all the calculated measurement probabilities
       gaussDist *= gauss_norm * exp(-exponent);
       // record particle's associations
-      associations.push_back(mobs.id);
-      sense_x.push_back(mobs.x);
-      sense_y.push_back(mobs.y);
+      associations.push_back(mu.id);
+      sense_x.push_back(mu.x);
+      sense_y.push_back(mu.y);
     }
 
     // update particle weights with multi-variate Gaussian distribution
-    if (gaussDist == 0) {
+    if (gaussDist == 0.0) {
       p.weight = MIN_WEIGHT;
     } else {
       p.weight = gaussDist;
